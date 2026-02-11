@@ -20,3 +20,118 @@ img {
 img:hover{
   transform: scale(1.05);
 }
+
+
+/* FORM WRAPPER */
+.contactForm {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding: 22px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  box-sizing: border-box;
+}
+
+/* EACH INPUT GROUP */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* LABEL */
+.formLabel {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* INPUT */
+.formInput {
+  width: 100%;
+  padding: 12px 14px;
+
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+
+  outline: none;
+  font-size: 15px;
+
+  box-sizing: border-box;
+}
+
+/* ON FOCUS */
+.formInput:focus {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* BUTTON */
+.formBtn {
+  width: 100%;
+  padding: 12px 14px;
+
+  border: none;
+  border-radius: 10px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  background: white;
+  color: black;
+
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.formBtn:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.formBtn:active {
+  transform: translateY(0px);
+}
+
+/* ✅ Responsive */
+@media (max-width: 520px) {
+  .contactForm {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .formInput {
+    font-size: 14px;
+  }
+
+  .formBtn {
+    font-size: 14px;
+  }
+}
+
+
+.errorText {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff6b6b;
+}
+
+.successText {
+  margin-top: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #4ade80;
+}

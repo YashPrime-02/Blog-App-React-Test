@@ -1,16 +1,78 @@
-# React + Vite
+# React Testing Setup (Vite + Vitest)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project uses **React + Vite** with a basic testing setup using **Vitest** and **React Testing Library**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Testing Tools Used
 
-## React Compiler
+- **Vitest** (Test Runner)
+- **jsdom** (Browser-like environment for testing)
+- **@testing-library/react** (Testing React components)
+- **@testing-library/user-event** (Typing/clicking like a real user)
+- **@testing-library/jest-dom** (Extra matchers like `toBeInTheDocument()`)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Run Tests
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Start test runner (watch mode)
+```bash
+npm test
+```
+
+### Run tests one time (no watch)
+```bash
+npx vitest run
+```
+
+---
+
+## Test File Naming Convention
+
+Vitest automatically detects test files like:
+
+- `App.test.jsx`
+- `App.spec.jsx`
+- `sum.test.js`
+
+### Recommended (Professional)
+- `App.ui.test.jsx`
+- `App.form.test.jsx`
+
+### Also Works (Beginner)
+- `App.test.2.jsx`
+
+---
+
+## Test Case Naming Convention
+
+Write test names clearly so the output is easy to understand.
+
+Examples:
+- `"renders the correct heading"`
+- `"shows required field errors when submitting empty form"`
+- `"clears inputs after successful submit"`
+
+If you have multiple test files, you can add a prefix:
+- `"[File 2] submits the form successfully"`
+
+---
+
+## Notes for Learners
+
+### `test.only()`
+Runs only one test (useful for debugging):
+```js
+test.only("my test", () => {});
+```
+
+### `test.skip()`
+Skips a test temporarily:
+```js
+test.skip("my test", () => {});
+```
+
+⚠️ Always remove `.only()` after debugging.
+
+---

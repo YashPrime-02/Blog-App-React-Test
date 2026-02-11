@@ -1,4 +1,4 @@
-import sum from "./sum";
+import sum from "../sum";
 
 // ✅ describe() is used to group related test cases together
 describe("sum() function tests", () => {
