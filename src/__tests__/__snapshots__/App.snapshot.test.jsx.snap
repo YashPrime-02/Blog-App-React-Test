@@ -1,0 +1,65 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App Snapshot Tests > matches the App component snapshot 1`] = `
+<div>
+  <div>
+    <h1>
+      First React Test Case
+    </h1>
+    <img
+      alt="Sample online"
+      src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80"
+      title="React Test Image"
+    />
+    <p>
+      Developed By Er Yash Mishra
+    </p>
+    <form
+      class="contactForm"
+    >
+      <div
+        class="formGroup"
+      >
+        <label
+          class="formLabel"
+          for="name"
+        >
+          Name
+        </label>
+        <input
+          class="formInput"
+          id="name"
+          name="name"
+          placeholder="Enter your name"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="formGroup"
+      >
+        <label
+          class="formLabel"
+          for="email"
+        >
+          Email
+        </label>
+        <input
+          class="formInput"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          type="email"
+          value=""
+        />
+      </div>
+      <button
+        class="formBtn"
+        type="submit"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+`;

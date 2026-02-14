@@ -75,7 +75,7 @@ describe("App Component Tests (File 2 - Form + UI)", () => {
   test("Other renders developer name text", () => {
     render(<App />);
 
-    const devText = screen.getByText(/developed by yash mishra/i);
+    const devText = screen.getByText(/developed by er yash mishra/i);
 
     expect(devText).toBeInTheDocument();
   });

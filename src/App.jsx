@@ -67,7 +67,7 @@ export default function App() {
         title="React Test Image"
       />
 
-      <p>Developed By Yash Mishra</p>
+      <p>Developed By Er Yash Mishra</p>
 
       <form className="contactForm" onSubmit={handleSubmit}>
         {/* NAME */}
