@@ -6,11 +6,21 @@ import ProfileCard from "./components/profileCard";
 export default function AppRoutes() {
   return (
     <BrowserRouter>
-      <nav style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
-        <Link to="/">Form</Link>
-        <Link to="/user">User</Link>
-        <Link to="/profile">Profile</Link>
-      </nav>
+      <header className="appHeader">
+        <nav className="appNav">
+          <Link className="navLink" to="/">
+            Form
+          </Link>
+
+          <Link className="navLink" to="/user">
+            User
+          </Link>
+
+          <Link className="navLink" to="/profile">
+            Profile
+          </Link>
+        </nav>
+      </header>
 
       <Routes>
         <Route path="/" element={<App />} />
@@ -23,7 +33,11 @@ export default function AppRoutes() {
         <Route
           path="/profile"
           element={
-            <ProfileCard name="Yash" role="Frontend Developer" isOnline={true} />
+            <ProfileCard
+              name="Yash"
+              role="Frontend Developer"
+              isOnline={true}
+            />
           }
         />
       </Routes>
