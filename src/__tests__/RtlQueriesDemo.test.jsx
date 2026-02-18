@@ -5,123 +5,214 @@ import { describe, test, expect } from "vitest";
 
 /*
   ==========================================================
-  ✅ RTL QUERIES TEST FILE (LEARNER LEVEL)
+  ✅ RTL QUERIES TEST FILE (ENGINEER LEVEL LEARNING)
   ==========================================================
 
-  IMPORTANT:
-  React Testing Library gives you multiple query types:
+  We will test EACH RTL query in 2 ways:
 
-  1) getBy...    => Throws error if element not found (MOST USED)
-  2) queryBy...  => Returns null if not found (best for negative testing)
-  3) findBy...   => Async (used when UI updates later, API calls, timers)
+  1) Basic test => element exists
+  2) Value test => element works / has correct value
 
-  In this file we will learn:
-  ✅ getByRole
-  ✅ getByText
-  ✅ getByLabelText
-  ✅ getByPlaceholderText
-  ✅ getByAltText
-  ✅ getByTitle
-  ✅ getByTestId (last option)
-  ✅ queryByText (negative test)
+  This is the BEST practical format.
 */
 
 describe("RTL Queries Demo (All Main Queries)", () => {
   // ==========================================================
-  // ✅ TEST 1: getByText
+  // ✅ GROUP 1: getByText()
   // ==========================================================
-  test("renders heading using getByText", () => {
-    render(<RtlQueriesDemo />);
+  describe("getByText() tests", () => {
+    test("Basic: renders heading using getByText", () => {
+      render(<RtlQueriesDemo />);
 
-    const heading = screen.getByText(/rtl queries demo/i);
-    expect(heading).toBeInTheDocument();
+      const heading = screen.getByText(/rtl queries demo/i);
+      expect(heading).toBeInTheDocument();
+    });
+
+    test("Value: heading text is exactly correct", () => {
+      render(<RtlQueriesDemo />);
+
+      const heading = screen.getByText(/rtl queries demo/i);
+      expect(heading).toHaveTextContent("RTL Queries Demo");
+    });
   });
 
   // ==========================================================
-  // ✅ TEST 2: getByAltText + getByTitle
+  // ✅ GROUP 8: CUSTOM ROLE TESTS
   // ==========================================================
-  test("renders image using alt text and title", () => {
-    render(<RtlQueriesDemo />);
+  describe("Custom role='button' tests", () => {
+    test("Basic: finds custom div button using getByRole", () => {
+      render(<RtlQueriesDemo />);
 
-    const image = screen.getByAltText("Demo Image");
-    expect(image).toBeInTheDocument();
+      /*
+        ✅ IMPORTANT:
+        This is NOT a real <button>.
+        It is a <div role="button">.
+      */
+      const customBtn = screen.getByRole("button", { name: /custom button/i });
 
-    const imageByTitle = screen.getByTitle("Profile Demo");
-    expect(imageByTitle).toBeInTheDocument();
+      expect(customBtn).toBeInTheDocument();
+    });
+
+    test("Value: clicking custom button updates click count", async () => {
+      const user = userEvent.setup();
+      render(<RtlQueriesDemo />);
+
+      const customBtn = screen.getByRole("button", { name: /custom button/i });
+
+      // Before click
+      expect(customBtn).toHaveTextContent(/clicks: 0/i);
+
+      // Click once
+      await user.click(customBtn);
+
+      // After click
+      expect(customBtn).toHaveTextContent(/clicks: 1/i);
+    });
   });
 
   // ==========================================================
-  // ✅ TEST 3: getByLabelText (BEST for forms)
+  // ✅ GROUP 2: getByAltText() + getByTitle()
   // ==========================================================
-  test("finds input using label (getByLabelText)", () => {
-    render(<RtlQueriesDemo />);
+  describe("Image queries tests", () => {
+    test("Basic: finds image using getByAltText", () => {
+      render(<RtlQueriesDemo />);
 
-    // Because label is connected with htmlFor="name"
-    const nameInput = screen.getByLabelText(/name/i);
-    expect(nameInput).toBeInTheDocument();
+      const image = screen.getByAltText("Demo Image");
+      expect(image).toBeInTheDocument();
+    });
+
+    test("Value: checks image title + src attribute", () => {
+      render(<RtlQueriesDemo />);
+
+      const image = screen.getByTitle("Profile Demo");
+
+      expect(image).toBeInTheDocument();
+      expect(image).toHaveAttribute("src", "https://via.placeholder.com/150");
+    });
   });
 
   // ==========================================================
-  // ✅ TEST 4: getByPlaceholderText
+  // ✅ GROUP 3: getByLabelText()
   // ==========================================================
-  test("finds input using placeholder text", () => {
-    render(<RtlQueriesDemo />);
+  describe("getByLabelText() tests", () => {
+    test("Basic: finds input using label", () => {
+      render(<RtlQueriesDemo />);
 
-    const nameInput = screen.getByPlaceholderText(/enter name/i);
-    expect(nameInput).toBeInTheDocument();
+      // Because <label htmlFor="name"> matches <input id="name" />
+      const nameInput = screen.getByLabelText(/name/i);
+      expect(nameInput).toBeInTheDocument();
+    });
+
+    test("Value: typing updates input value", async () => {
+      const user = userEvent.setup();
+      render(<RtlQueriesDemo />);
+
+      const nameInput = screen.getByLabelText(/name/i);
+
+      await user.type(nameInput, "Yash");
+
+      expect(nameInput).toHaveValue("Yash");
+    });
   });
 
   // ==========================================================
-  // ✅ TEST 5: getByRole (BEST PRACTICE)
+  // ✅ GROUP 4: getByPlaceholderText()
   // ==========================================================
-  test("finds submit button using role", () => {
-    render(<RtlQueriesDemo />);
+  describe("getByPlaceholderText() tests", () => {
+    test("Basic: finds input using placeholder", () => {
+      render(<RtlQueriesDemo />);
 
-    // Buttons should be tested using role
-    const submitBtn = screen.getByRole("button", { name: /submit/i });
-    expect(submitBtn).toBeInTheDocument();
+      const nameInput = screen.getByPlaceholderText(/enter name/i);
+      expect(nameInput).toBeInTheDocument();
+    });
+
+    test("Value: typing updates input value (placeholder query)", async () => {
+      const user = userEvent.setup();
+      render(<RtlQueriesDemo />);
+
+      const nameInput = screen.getByPlaceholderText(/enter name/i);
+
+      await user.type(nameInput, "Mishra");
+
+      expect(nameInput).toHaveValue("Mishra");
+    });
   });
 
   // ==========================================================
-  // ✅ TEST 6: queryByText (negative test)
+  // ✅ GROUP 5: getByRole()
   // ==========================================================
-  test("does NOT show message before submit (queryByText)", () => {
-    render(<RtlQueriesDemo />);
+  describe("getByRole() tests", () => {
+    test("Basic: finds Submit button using role", () => {
+      render(<RtlQueriesDemo />);
 
-    // queryByText returns null if element doesn't exist
-    const message = screen.queryByText(/hello/i);
-    expect(message).not.toBeInTheDocument();
+      // Best practice: buttons should be tested using getByRole
+      const submitBtn = screen.getByRole("button", { name: /submit/i });
+
+      expect(submitBtn).toBeInTheDocument();
+    });
+
+    test("Value: finds textbox using role", () => {
+      render(<RtlQueriesDemo />);
+
+      /*
+        ✅ IMPORTANT:
+        <input type="text" /> has role="textbox"
+        This is very common in tutorials.
+      */
+      const textbox = screen.getByRole("textbox", { name: /name/i });
+
+      expect(textbox).toBeInTheDocument();
+    });
   });
 
   // ==========================================================
-  // ✅ TEST 7: userEvent + getByText after submit
+  // ✅ GROUP 6: queryByText()
   // ==========================================================
-  test("shows message after submit", async () => {
-    const user = userEvent.setup();
-    render(<RtlQueriesDemo />);
+  describe("queryByText() tests", () => {
+    test("Basic: message is NOT visible before submit", () => {
+      render(<RtlQueriesDemo />);
 
-    // getByLabelText (best)
-    const nameInput = screen.getByLabelText(/name/i);
+      // queryByText returns null (no error thrown)
+      const msg = screen.queryByText(/hello/i);
 
-    // Type
-    await user.type(nameInput, "Yash");
+      expect(msg).not.toBeInTheDocument();
+    });
 
-    // Submit
-    const submitBtn = screen.getByRole("button", { name: /submit/i });
-    await user.click(submitBtn);
+    test("Value: message becomes visible after submit", async () => {
+      const user = userEvent.setup();
+      render(<RtlQueriesDemo />);
 
-    // Now message should appear
-    expect(screen.getByText(/hello yash/i)).toBeInTheDocument();
+      const nameInput = screen.getByLabelText(/name/i);
+      await user.type(nameInput, "Yash");
+
+      const submitBtn = screen.getByRole("button", { name: /submit/i });
+      await user.click(submitBtn);
+
+      // Now queryByText should find it
+      const msg = screen.queryByText(/hello yash/i);
+      expect(msg).toBeInTheDocument();
+    });
   });
 
   // ==========================================================
-  // ✅ TEST 8: getByTestId (LAST OPTION)
+  // ✅ GROUP 7: getByTestId()
   // ==========================================================
-  test("finds wrapper using testid", () => {
-    render(<RtlQueriesDemo />);
+  describe("getByTestId() tests (last option)", () => {
+    test("Basic: finds wrapper using testid", () => {
+      render(<RtlQueriesDemo />);
 
-    // testid should be used only if no other query works
-    const wrapper = screen.getByTestId("rtl-demo");
-    expect(wrapper).toBeInTheDocument();
+      const wrapper = screen.getByTestId("rtl-demo");
+      expect(wrapper).toBeInTheDocument();
+    });
+
+    test("Value: wrapper contains heading + form", () => {
+      render(<RtlQueriesDemo />);
+
+      const wrapper = screen.getByTestId("rtl-demo");
+
+      // This confirms wrapper actually contains our UI
+      expect(wrapper).toHaveTextContent("RTL Queries Demo");
+      expect(wrapper).toHaveTextContent("Submit");
+    });
   });
 });

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import App from "./App";
 import User from "./components/users";
 import ProfileCard from "./components/profileCard";
+import NonSemanticDemo from "./components/NonSemanticDemo";
 
 export default function AppRoutes() {
   return (
@@ -40,7 +41,10 @@ export default function AppRoutes() {
             />
           }
         />
+        <Route path="/non-semantic" element={<NonSemanticDemo/>}/>
+
       </Routes>
+
     </BrowserRouter>
   );
 }
