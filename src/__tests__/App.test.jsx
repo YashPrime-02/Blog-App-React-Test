@@ -311,4 +311,82 @@ describe("Querying Within Elements Tests", () => {
   });
 });
 
+// ==========================================================
+// ✅ GROUP 7: onChange Event + Keyboard Interaction Tests
+// ==========================================================
+describe("onChange Event + Keyboard Interaction Tests", () => {
+
+  /*
+    ✅ IMPORTANT:
+    Your component:
+    - Updates value onChange
+    - Validates only on submit
+    - Does NOT auto-clear errors while typing
+
+    So tests must match that behavior.
+  */
+
+  // ✅ Test Case 18: onChange updates input value
+  test("onChange updates name input value correctly", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const nameInput = screen.getByPlaceholderText(/enter your name/i);
+
+    await user.type(nameInput, "Yash");
+
+    expect(nameInput).toHaveValue("Yash");
+  });
+
+  // ✅ Test Case 19: Press Enter key to submit form
+  test("submits form when Enter key is pressed", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const nameInput = screen.getByPlaceholderText(/enter your name/i);
+    const emailInput = screen.getByPlaceholderText(/enter your email/i);
+
+    await user.type(nameInput, "Yash");
+    await user.type(emailInput, "yash@gmail.com");
+
+    // Press Enter (inside form context)
+    await user.keyboard("{Enter}");
+
+    expect(
+      screen.getByText(/form submitted: yash \(yash@gmail\.com\)/i)
+    ).toBeInTheDocument();
+  });
+
+  // ✅ Test Case 20: Tab key moves focus correctly
+  test("tab key moves focus between inputs", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.tab(); // Focus first focusable element
+
+    const nameInput = screen.getByPlaceholderText(/enter your name/i);
+    expect(nameInput).toHaveFocus();
+
+    await user.tab(); // Move to email
+
+    const emailInput = screen.getByPlaceholderText(/enter your email/i);
+    expect(emailInput).toHaveFocus();
+  });
+
+  // ✅ Test Case 21: Backspace removes characters
+  test("backspace removes typed characters", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const nameInput = screen.getByPlaceholderText(/enter your name/i);
+
+    await user.type(nameInput, "Yash");
+    await user.keyboard("{Backspace}{Backspace}");
+
+    expect(nameInput).toHaveValue("Ya");
+  });
+
+});
+
+
 });
