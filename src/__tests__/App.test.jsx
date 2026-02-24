@@ -199,4 +199,63 @@ describe("App Component Tests", () => {
       expect(emailInput).toHaveValue("");
     });
   });
+
+
+  // ==========================================================
+// ✅ GROUP 5: Test Elements with JavaScript Query | Custom Query
+// ==========================================================
+describe("JavaScript Query / Custom Query Tests", () => {
+  /*
+    ✅ NOTE FOR LEARNERS:
+
+    Normally in React Testing Library we use:
+      - screen.getByText()
+      - screen.getByRole()
+      - screen.getByLabelText()
+
+    But sometimes we can also use:
+      - document.querySelector()
+      - container.querySelector()
+
+    This is called JavaScript DOM Query.
+    It directly searches HTML like normal JS.
+
+    ⚠️ But in real projects:
+    Prefer RTL queries (more accessible & user-focused).
+  */
+
+  // ✅ Test Case 14: Using document.querySelector
+  test("finds form using JavaScript querySelector", () => {
+    render(<App />);
+
+    // This directly selects element by class (like plain JS)
+    const form = document.querySelector(".contactForm");
+
+    expect(form).toBeInTheDocument();
+  });
+
+  // ✅ Test Case 15: Using container (custom query)
+  test("finds errorText class using container query", async () => {
+    const user = userEvent.setup();
+
+    // render gives access to container
+    const { container } = render(<App />);
+
+    // Submit empty form to show errors
+    const submitBtn = screen.getByRole("button", { name: /submit/i });
+    await user.click(submitBtn);
+
+    /*
+      container.querySelector searches inside rendered component only.
+      Useful when:
+      - Checking CSS classes
+      - Checking structure
+      - Testing specific DOM structure
+    */
+    const errorElement = container.querySelector(".errorText");
+
+    expect(errorElement).toBeInTheDocument();
+    expect(errorElement).toHaveTextContent(/required/i);
+  });
+});
 });
