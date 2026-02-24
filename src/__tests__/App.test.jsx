@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import App from "../App";
 import userEvent from "@testing-library/user-event";
 
@@ -258,4 +258,57 @@ describe("JavaScript Query / Custom Query Tests", () => {
     expect(errorElement).toHaveTextContent(/required/i);
   });
 });
+
+// ==========================================================
+// ✅ GROUP 6: Querying Within Elements
+// ==========================================================
+describe("Querying Within Elements Tests", () => {
+  /*
+    ✅ NOTE FOR LEARNERS:
+
+    Sometimes multiple similar elements exist.
+    Instead of searching the entire screen,
+    we search INSIDE a specific parent element.
+
+    For that we use:
+      within(parentElement)
+
+    This avoids:
+    - accidental matches
+    - duplicate element confusion
+  */
+
+  // ✅ Test Case 16: Search inside form only
+  test("finds name input inside the form using within()", () => {
+    render(<App />);
+
+    // First get the form
+    const form = document.querySelector(".contactForm");
+
+    // Now search only inside the form
+    const nameInput = within(form).getByPlaceholderText(/enter your name/i);
+
+    expect(nameInput).toBeInTheDocument();
+  });
+
+  // ✅ Test Case 17: Validate errors inside form only
+  test("shows validation errors inside form using within()", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const form = document.querySelector(".contactForm");
+
+    const submitBtn = within(form).getByRole("button", { name: /submit/i });
+
+    await user.click(submitBtn);
+
+    // Now search only inside form
+    const nameError = within(form).getByText(/name is required/i);
+    const emailError = within(form).getByText(/email is required/i);
+
+    expect(nameError).toBeInTheDocument();
+    expect(emailError).toBeInTheDocument();
+  });
+});
+
 });
